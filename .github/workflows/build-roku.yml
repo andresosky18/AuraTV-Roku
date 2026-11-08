@@ -1,0 +1,31 @@
+name: Build Roku OS Channel Package (.zip)
+
+on:
+  push:
+    branches: [ main, master ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  package-roku:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate SceneGraph XML components
+        run: |
+          xmllint --noout components/*.xml
+
+      - name: Build Roku OS Sideload Package (.zip)
+        run: |
+          mkdir -p dist
+          zip -r -9 dist/AURA_TV_Roku_v2.1.zip manifest source/ components/ images/
+
+      - name: Upload Roku OS Channel Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: AuraTV-RokuOS-v2.1
+          path: dist/AURA_TV_Roku_v2.1.zip

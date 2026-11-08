@@ -1,0 +1,12 @@
+title=AURA TV Safe Core
+major_version=1
+minor_version=0
+build_version=21
+mm_icon_focus_hd=pkg:/images/icon.jpg
+mm_icon_side_hd=pkg:/images/icon.jpg
+ui_resolutions=hd
+splash_screen_hd=pkg:/images/splash_hd.jpg
+splash_screen_fhd=pkg:/images/splash_fhd.jpg
+splash_color=#000000
+splash_min_time=1200
+splash_rsg_optimization=1

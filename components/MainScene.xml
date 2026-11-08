@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="MainScene" extends="Scene">
+    <script type="text/brightscript" uri="pkg:/components/MainScene.brs" />
+    <script type="text/brightscript" uri="pkg:/components/MoviesModule.brs" />
+    <script type="text/brightscript" uri="pkg:/components/AddonsModule.brs" />
+    <children>
+        <!-- Fondo base OLED Negro Puro (#000000) -->
+        <Rectangle id="sceneBg" width="1280" height="720" color="0x000000FF" />
+
+        <!-- 1. Splash Group (Pantalla de Carga OLED Black Moderna — Sin texto) -->
+        <Group id="splashGroup">
+            <Rectangle width="1280" height="720" color="0x000000FF" />
+            <!-- Resplandor ambiental sutil detrás del logo -->
+            <Rectangle translation="[420,220]" width="440" height="240" color="0x0E749012" />
+            <Poster id="splashLogo" translation="[500,278]" width="280" height="78" uri="pkg:/images/aura_logo_inner.png" loadDisplayMode="scaleToFit" />
+            <!-- Barra de progreso sin texto -->
+            <Rectangle id="splashProgressTrack" translation="[520,388]" width="240" height="5" color="0xFFFFFF1C" />
+            <Rectangle id="splashProgressBar" translation="[520,388]" width="28" height="5" color="0xFACC15FF" />
+        </Group>
+
+        <!-- 2. Launcher / Home Screen (Diseño Moderno OLED Black inspirado en Playbox + IPTV Modern) -->
+        <Group id="launcherGroup" visible="false">
+            <Rectangle width="1280" height="720" color="0x000000FF" />
+            <Rectangle translation="[120,168]" width="510" height="280" color="0x0EA5E912" />
+            <Rectangle translation="[650,168]" width="510" height="280" color="0x8B5CF610" />
+
+            <!-- Header Superior: Logo a la izquierda, Reloj/Fecha centrados, Iconos circulares a la derecha -->
+            <Poster translation="[68,42]" width="210" height="58" uri="pkg:/images/aura_logo_inner.png" loadDisplayMode="scaleToFit" />
+
+            <Label id="launcherClockLabel" translation="[490,32]" width="300" height="46" text="18:57" horizAlign="center" color="0xFFFFFFFF" font="font:LargeBoldSystemFont" />
+            <Label id="launcherDateLabel" translation="[0,0]" width="1" height="1" text="" visible="false" />
+            <Label id="launcherDate2Label" translation="[440,80]" width="400" height="22" text="Sunday, Nov 1" horizAlign="center" color="0x8E9BB0FF" font="font:SmallBoldSystemFont" />
+
+            <!-- Píldoras superiores derechas (Buscar, Sincronización con rotación, Ajustes) -->
+            <Group translation="[1084,42]">
+                <Rectangle width="46" height="46" color="0xFFFFFF1C" />
+                <Rectangle translation="[1,1]" width="44" height="44" color="0x0F1523FF" />
+                <Label translation="[0,10]" width="46" height="26" text="Q" horizAlign="center" color="0xE2E8F0FF" font="font:SmallBoldSystemFont" />
+            </Group>
+            <Group translation="[1142,42]">
+                <Rectangle width="46" height="46" color="0xFFFFFF1C" />
+                <Rectangle translation="[1,1]" width="44" height="44" color="0x0F1523FF" />
+                <Poster id="launcherSyncIcon" translation="[12,12]" width="22" height="22" scaleRotateCenter="[11,11]" uri="pkg:/images/refresh.png" loadDisplayMode="scaleToFit" />
+            </Group>
+            <Group translation="[1200,42]">
+                <Rectangle width="46" height="46" color="0xFFFFFF1C" />
+                <Rectangle translation="[1,1]" width="44" height="44" color="0x0F1523FF" />
+                <Poster translation="[12,12]" width="22" height="22" uri="pkg:/images/settings_safe.png" loadDisplayMode="scaleToFit" />
+            </Group>
+
+            <!-- Tarjetas Centrales Modernas Playbox -->
+            <Group id="launcherTilesGroup" translation="[118,180]" />
+
+            <!-- Barra de estado de canales en vivo (Activos / Totales / Categorías / Favoritos / Caídos / Último) -->
+            <Label id="launcherChannelStatsLabel" translation="[145,476]" width="990" height="28" text="" horizAlign="center" color="0x64748BFF" font="font:SmallBoldSystemFont" />
+
+            <!-- Footer Inferior Estilo Moderno OLED -->
+            <Label id="webLabel" translation="[68,626]" width="480" height="24" text="Portal: https://auratv.site.je" color="0x94A3B8FF" font="font:SmallBoldSystemFont" />
+            <Label id="launcherSyncFooterLabel" translation="[68,654]" width="420" height="22" text="Auto-Sync Active (3s)  ·  Status: Online" color="0x64748BFF" font="font:SmallSystemFont" />
+
+            <Label id="macLabel" translation="[760,626]" width="452" height="24" text="MAC Address: 94:23:87:99:03:15" horizAlign="right" color="0xE2E8F0FF" font="font:SmallBoldSystemFont" />
+            <Label id="launcherVersionLabel" translation="[760,654]" width="452" height="22" text="Version: 2.1 OLED Edition" horizAlign="right" color="0x64748BFF" font="font:SmallSystemFont" />
+        </Group>
+
+        <!-- 3. Regional (Live TV) UI — OLED Black -->
+        <Group id="regionalGroup" visible="false">
+            <Rectangle width="1280" height="720" color="0x000000FF" />
+
+            <!-- Barra superior de cristales oscuros sobre OLED -->
+            <Rectangle translation="[56,30]" width="382" height="54" color="0xFFFFFF18" />
+            <Rectangle translation="[57,31]" width="380" height="52" color="0x0C111DFF" />
+            <Rectangle translation="[74,47]" width="10" height="20" color="0x00E5A3FF" />
+            <Label id="regionalTitleLabel" translation="[96,42]" width="320" height="30" text="CANALES" color="0xFFFFFFFF" font="font:MediumBoldSystemFont" />
+
+            <Rectangle translation="[454,30]" width="516" height="54" color="0xFFFFFF18" />
+            <Rectangle translation="[455,31]" width="514" height="52" color="0x0C111DFF" />
+            <Label id="regionalChannelStatsLabel" translation="[466,43]" width="492" height="28" text="" horizAlign="center" color="0xD8E4F8FF" font="font:SmallBoldSystemFont" />
+
+            <Rectangle translation="[986,30]" width="128" height="54" color="0xFFFFFF18" />
+            <Rectangle translation="[987,31]" width="126" height="52" color="0x0C111DFF" />
+            <Label id="syncStatusLabel" translation="[992,45]" width="116" height="24" text="" horizAlign="center" color="0x38BDF8FF" font="font:SmallBoldSystemFont" />
+
+            <Rectangle translation="[1126,30]" width="98" height="54" color="0xFFFFFF18" />
+            <Rectangle translation="[1127,31]" width="96" height="52" color="0x0C111DFF" />
+            <Label id="clockLabel" translation="[1126,43]" width="98" height="28" text="16:28" horizAlign="center" color="0xFFFFFFFF" font="font:SmallBoldSystemFont" />
+
+            <!-- Lista lateral de Categorías / Canales -->
+            <Group id="leftNavGroup" translation="[56,102]" />
+
+            <!-- Marco del reproductor de vista previa -->
+            <Rectangle id="previewFrameBorder" translation="[556,98]" width="453" height="328" color="0xFFFFFF24" />
+            <Rectangle id="previewFrameBg" translation="[557,99]" width="451" height="326" color="0x05070BFF" />
+            <Poster id="previewPoster" translation="[560,102]" width="445" height="320" uri="pkg:/images/preview.jpg" loadDisplayMode="scaleToFill" />
+
+            <!-- Guía EPG debajo del reproductor -->
+            <Group id="programListGroup" translation="[492,440]" />
+            <!-- Selector de días a la derecha -->
+            <Group id="daysGroup" translation="[1100,102]" />
+        </Group>
+
+        <!-- 4. Search UI — OLED Black -->
+        <Group id="searchGroup" visible="false">
+            <Rectangle width="1280" height="720" color="0x000000FF" />
+            <Group id="searchChannelsGroup" translation="[58,30]" />
+            <Group id="searchKeyboardGroup" translation="[482,252]" />
+            <Rectangle translation="[481,191]" width="642" height="48" color="0x38BDF855" />
+            <Rectangle id="searchInputBg" translation="[482,192]" width="640" height="46" color="0x111726FF" />
+            <Label translation="[496,202]" width="28" height="26" text="Q" horizAlign="center" color="0x38BDF8FF" font="font:SmallBoldSystemFont" />
+            <Label id="searchQueryLabel" translation="[532,203]" width="570" height="24" text="" color="0xF8FAFCFF" font="font:SmallBoldSystemFont" />
+        </Group>
+
+        <!-- 5. Movies library powered by installed Add-ons — OLED Black -->
+        <Group id="moviesGroup" visible="false">
+            <Rectangle width="1280" height="720" color="0x000000FF" />
+            <Poster translation="[58,36]" width="190" height="54" uri="pkg:/images/aura_logo_inner.png" loadDisplayMode="scaleToFit" />
+            <Label id="moviesTitleLabel" translation="[68,104]" width="260" height="44" text="Movies" color="0xFFFFFFFF" font="font:LargeBoldSystemFont" />
+            <Label id="movieCatalogHeadingLabel" translation="[68,164]" width="245" height="26" text="CATALOGS" color="0x64748BFF" font="font:SmallBoldSystemFont" />
+            <Group id="movieCatalogGroup" translation="[64,202]" />
+            <Label id="movieStatusLabel" translation="[342,112]" width="830" height="30" text="" color="0x94A3B8FF" font="font:SmallBoldSystemFont" />
+            <Group id="movieGridGroup" translation="[342,158]" />
+            <Label id="movieInstallHintLabel" translation="[342,654]" width="670" height="24" text="" color="0x64748BFF" font="font:SmallSystemFont" />
+            <Label id="moviePageLabel" translation="[1010,654]" width="180" height="24" text="" horizAlign="right" color="0x94A3B8FF" font="font:SmallBoldSystemFont" />
+            <Group id="movieDetailGroup" visible="false">
+                <Rectangle width="1280" height="720" color="0x000000FF" />
+                <Poster id="movieDetailBackdrop" width="1280" height="720" uri="" loadDisplayMode="scaleToFill" opacity="0.28" />
+                <Rectangle width="1280" height="720" color="0x000000B8" />
+                <Rectangle translation="[86,110]" width="256" height="374" color="0xFFFFFF26" />
+                <Poster id="movieDetailPoster" translation="[88,112]" width="252" height="370" uri="pkg:/images/movies_safe.png" loadDisplayMode="scaleToFill" />
+                <Label id="movieDetailTitle" translation="[390,116]" width="760" height="58" text="" color="0xFFFFFFFF" font="font:LargeBoldSystemFont" />
+                <Label id="movieDetailMeta" translation="[392,184]" width="760" height="30" text="" color="0x38BDF8FF" font="font:SmallBoldSystemFont" />
+                <Label id="movieDetailDescription" translation="[392,234]" width="740" height="220" text="" color="0xCBD5E1FF" font="font:MediumSystemFont" wrap="true" />
+                <Rectangle id="moviePlayBg" translation="[390,486]" width="230" height="56" color="0xFFFFFFFF" />
+                <Label id="moviePlayLabel" translation="[390,499]" width="230" height="30" text="PLAY" horizAlign="center" color="0x090D16FF" font="font:MediumBoldSystemFont" />
+                <Label id="movieDetailHintLabel" translation="[390,564]" width="700" height="28" text="" color="0x64748BFF" font="font:SmallSystemFont" />
+                <Label id="movieDetailStatusLabel" translation="[390,606]" width="700" height="28" text="" color="0x38BDF8FF" font="font:SmallBoldSystemFont" />
+            </Group>
+        </Group>
+
+        <!-- 6. Player UI (Con Banner Plata/Pizarra #DCE3EF, Mini-Guía lateral y Estado de Reconexión) -->
+        <Group id="playerGroup" visible="false">
+            <Video id="videoPlayer" width="1280" height="720" translation="[0,0]" />
+
+            <!-- Estado de reconexión o canal no disponible en pantalla completa -->
+            <Group id="playerStreamStatusBadge" translation="[320,48]" visible="false">
+                <Rectangle width="640" height="76" color="0xFFFFFF28" />
+                <Rectangle translation="[1,1]" width="638" height="74" color="0x080C16F0" />
+                <Label id="playerStreamStatusTitle" translation="[20,12]" width="600" height="28" text="Canal no disponible en el momento" horizAlign="center" color="0xF8FAFCFF" font="font:MediumBoldSystemFont" />
+                <Label id="playerStreamStatusSub" translation="[20,42]" width="600" height="22" text="Presiona OK para reintentar o Arriba/Abajo para cambiar de canal" horizAlign="center" color="0x94A3B8FF" font="font:SmallSystemFont" />
+            </Group>
+
+            <!-- Mini-Guía Lateral en Pantalla Completa (se abre con Izquierda sin salir del video) -->
+            <Group id="playerMiniGuide" translation="[28,36]" visible="false">
+                <Rectangle width="392" height="648" color="0xFFFFFF24" />
+                <Rectangle translation="[1,1]" width="390" height="646" color="0x060A13EB" />
+                <Label id="miniGuideTitleLabel" translation="[22,18]" width="280" height="28" text="Canales en Vivo" color="0xFFFFFFFF" font="font:MediumBoldSystemFont" />
+                <Label id="miniGuideSubLabel" translation="[22,46]" width="348" height="20" text="Arriba/Abajo Explorar · OK Cambiar · Der/Back Cerrar" color="0x94A3B8FF" font="font:SmallSystemFont" />
+                <Group id="miniGuideRowsGroup" translation="[8,78]" />
+            </Group>
+
+            <!-- Banner inferior OSD en color plata/pizarra claro sobrio (#DCE3EF con texto oscuro #182235) auto-oculta a los 8s -->
+            <Group id="playerBannerBox" translation="[90,576]">
+                <Rectangle width="1100" height="94" color="0xFFFFFF88" />
+                <Rectangle translation="[1,1]" width="1098" height="92" color="0xDCE3EFEE" />
+                <Label id="playerNumberLabel" translation="[18,24]" width="96" height="44" text="1" horizAlign="center" color="0x182235FF" font="font:LargeBoldSystemFont" />
+                <Rectangle translation="[122,18]" width="2" height="58" color="0x18223529" />
+                <Rectangle id="playerChannelLogoBg" translation="[138,21]" width="52" height="52" color="0x18223514" visible="false" />
+                <Poster id="playerChannelLogo" translation="[142,25]" width="44" height="44" uri="" loadDisplayMode="scaleToFit" visible="false" />
+                <Label id="playerNameLabel" translation="[202,12]" width="560" height="36" text="Canal" color="0x182235FF" font="font:LargeBoldSystemFont" />
+                <Label id="playerCategoryLabel" translation="[204,47]" width="350" height="22" text="" color="0x4A5B78FF" font="font:SmallBoldSystemFont" />
+
+                <!-- Píldoras de metadatos (Favorito, Resolución en vivo, Relación de aspecto) -->
+                <Group id="playerFavBadgeGroup" translation="[562,46]" visible="false">
+                    <Rectangle width="104" height="22" color="0x18223526" />
+                    <Label id="playerFavBadge" translation="[0,2]" width="104" height="18" text="* FAVORITO" horizAlign="center" color="0x182235FF" font="font:SmallestSystemFont" />
+                </Group>
+                <Group id="playerResBadgeGroup" translation="[674,46]">
+                    <Rectangle width="84" height="22" color="0x18223526" />
+                    <Label id="playerResBadge" translation="[0,2]" width="84" height="18" text="LIVE" horizAlign="center" color="0x182235FF" font="font:SmallestSystemFont" />
+                </Group>
+                <Group id="playerAspectBadgeGroup" translation="[766,46]">
+                    <Rectangle width="78" height="22" color="0x18223526" />
+                    <Label id="playerAspectBadge" translation="[0,2]" width="78" height="18" text="16:9" horizAlign="center" color="0x182235FF" font="font:SmallestSystemFont" />
+                </Group>
+
+                <Label id="playerHintSub" translation="[204,70]" width="660" height="18" text="&lt; Mini-Guia  ·  &gt; Ultimo canal  ·  OK Aspecto  ·  * Favorito" color="0x52637EFF" font="font:SmallestSystemFont" />
+                <Label id="playerDateLabel" translation="[870,18]" width="208" height="24" text="" horizAlign="right" color="0x2B3952FF" font="font:SmallBoldSystemFont" />
+                <Label id="playerTimeLabel" translation="[870,46]" width="208" height="26" text="" horizAlign="right" color="0x182235FF" font="font:MediumBoldSystemFont" />
+            </Group>
+        </Group>
+
+        <!-- Superposición de estado del canal en Vista Previa (se re-adjunta al tope en init para quedar sobre videoPlayer) -->
+        <Group id="previewStatusOverlay" translation="[560,102]" visible="false">
+            <Rectangle width="445" height="320" color="0xFFFFFF24" />
+            <Rectangle translation="[1,1]" width="443" height="318" color="0x05080FF0" />
+            <Rectangle translation="[202,76]" width="40" height="40" color="0x38BDF833" />
+            <Label id="previewStatusIcon" translation="[202,82]" width="40" height="28" text="!" horizAlign="center" color="0x38BDF8FF" font="font:MediumBoldSystemFont" />
+            <Label id="previewStatusTitle" translation="[22,132]" width="400" height="52" text="Canal no disponible en el momento" horizAlign="center" color="0xF8FAFCFF" font="font:MediumBoldSystemFont" wrap="true" />
+            <Label id="previewStatusSubtitle" translation="[28,192]" width="388" height="48" text="Presiona OK para reintentar o selecciona otro canal" horizAlign="center" color="0x94A3B8FF" font="font:SmallSystemFont" wrap="true" />
+        </Group>
+
+        <!-- 7. Playlists list UI — Rediseño Moderno OLED Black -->
+        <Group id="playlistsGroup" visible="false">
+            <Rectangle width="1280" height="720" color="0x000000FF" />
+            <Poster translation="[68,40]" width="180" height="50" uri="pkg:/images/aura_logo_inner.png" loadDisplayMode="scaleToFit" />
+            <Label id="playlistsTitleLabel" translation="[230,52]" width="360" height="44" text="Playlists" color="0xFFFFFFFF" font="font:LargeBoldSystemFont" />
+
+            <Group id="playlistToolbarGroup" translation="[786,50]">
+                <Rectangle id="refreshBtnBg" width="56" height="48" color="0x111827FF" />
+                <Poster id="playlistRefreshIcon" translation="[15,11]" width="26" height="26" scaleRotateCenter="[13,13]" uri="pkg:/images/refresh.png" loadDisplayMode="scaleToFit" />
+                <Rectangle id="addBtnBg" translation="[68,0]" width="56" height="48" color="0x111827FF" />
+                <Poster translation="[83,11]" width="26" height="26" uri="pkg:/images/plus.png" loadDisplayMode="scaleToFit" />
+            </Group>
+
+            <Group id="playlistRowsGroup" translation="[230,130]" />
+            <Rectangle id="trashBtnBg" translation="[924,130]" width="58" height="54" color="0x111827FF" />
+            <Poster translation="[937,141]" width="32" height="32" uri="pkg:/images/trash.png" loadDisplayMode="scaleToFit" />
+
+            <!-- Tarjeta inferior de ayuda y estado de sincronización -->
+            <Rectangle translation="[229,509]" width="754" height="144" color="0xFFFFFF18" />
+            <Rectangle translation="[230,510]" width="752" height="142" color="0x0B0F19FF" />
+            <Label id="playlistHelpLabel1" translation="[258,532]" width="700" height="25" text="" color="0xF1F5F9FF" font="font:SmallBoldSystemFont" />
+            <Label id="playlistHelpLabel2" translation="[258,562]" width="700" height="25" text="" color="0x94A3B8FF" font="font:SmallSystemFont" />
+            <Label id="playlistSyncStatus" translation="[258,606]" width="700" height="26" text="" color="0x10B981FF" font="font:SmallBoldSystemFont" />
+        </Group>
+
+        <!-- 8. Add playlist UI — OLED Black -->
+        <Group id="addPlaylistGroup" visible="false">
+            <Rectangle width="1280" height="720" color="0x000000FF" />
+            <Rectangle translation="[149,37]" width="982" height="638" color="0xFFFFFF18" />
+            <Rectangle translation="[150,38]" width="980" height="636" color="0x0B0F19FF" />
+
+            <Label id="addPlaylistTitleLabel" translation="[196,62]" width="420" height="42" text="Add Playlist" color="0xFFFFFFFF" font="font:LargeBoldSystemFont" />
+
+            <Rectangle id="xtreamTabBg" translation="[196,122]" width="220" height="50" color="0xFFFFFFFF" />
+            <Label id="xtreamTabLabel" translation="[196,134]" width="220" height="26" text="Xtream Account" horizAlign="center" color="0x090D16FF" font="font:MediumBoldSystemFont" />
+            <Rectangle id="m3uTabBg" translation="[430,122]" width="220" height="50" color="0x141C2BFF" />
+            <Label id="m3uTabLabel" translation="[430,134]" width="220" height="26" text="Playlist" horizAlign="center" color="0xE2E8F0FF" font="font:MediumBoldSystemFont" />
+
+            <Group id="addPlaylistFieldsGroup" translation="[196,196]" />
+
+            <Rectangle id="cancelBtnBg" translation="[196,408]" width="150" height="48" color="0x141C2BFF" />
+            <Label id="cancelBtnLabel" translation="[196,420]" width="150" height="24" text="Cancel" horizAlign="center" color="0xFFFFFFFF" font="font:SmallBoldSystemFont" />
+            <Rectangle id="okBtnBg" translation="[362,408]" width="150" height="48" color="0x141C2BFF" />
+            <Label id="okBtnLabel" translation="[362,420]" width="150" height="24" text="OK" horizAlign="center" color="0xFFFFFFFF" font="font:SmallBoldSystemFont" />
+
+            <Label id="addInfoLabel1" translation="[196,518]" width="600" height="26" text="To add playlist from our website visit" color="0xCBD5E1FF" font="font:SmallBoldSystemFont" />
+            <Label id="portalUrlLabel" translation="[196,548]" width="400" height="26" text="https://auratv.site.je" color="0x38BDF8FF" font="font:SmallBoldSystemFont" />
+            <Label id="addInfoLabel2" translation="[196,578]" width="600" height="24" text="or scan the QR code on the right" color="0x64748BFF" font="font:SmallSystemFont" />
+
+            <Rectangle translation="[878,434]" width="196" height="196" color="0xFFFFFFFF" />
+            <Poster translation="[888,444]" width="176" height="176" uri="pkg:/images/device_qr.png" loadDisplayMode="scaleToFit" />
+            <Label id="addPlaylistStatus" translation="[196,616]" width="650" height="24" text="" color="0x10B981FF" font="font:SmallBoldSystemFont" />
+        </Group>
+
+        <!-- 9. Add-ons management / information screen — OLED Black -->
+        <Group id="addonsGroup" visible="false">
+            <Rectangle width="1280" height="720" color="0x000000FF" />
+            <Poster translation="[68,40]" width="190" height="54" uri="pkg:/images/aura_logo_inner.png" loadDisplayMode="scaleToFit" />
+            <Label id="addonsTitleLabel" translation="[68,112]" width="300" height="44" text="Add-ons" color="0xFFFFFFFF" font="font:LargeBoldSystemFont" />
+            <Label id="addonsSubtitleLabel" translation="[68,162]" width="560" height="26" text="" color="0x64748BFF" font="font:SmallBoldSystemFont" />
+            <Group id="addonsRowsGroup" translation="[68,210]" />
+
+            <Rectangle translation="[751,153]" width="450" height="470" color="0xFFFFFF18" />
+            <Rectangle translation="[752,154]" width="448" height="468" color="0x0B0F19FF" />
+            <Label id="addonsHelpTitleLabel" translation="[792,188]" width="368" height="34" text="" color="0xFFFFFFFF" font="font:MediumBoldSystemFont" />
+            <Label id="addonsHelpBodyLabel" translation="[792,232]" width="368" height="110" text="" color="0x94A3B8FF" font="font:SmallSystemFont" wrap="true" />
+
+            <Rectangle translation="[880,358]" width="192" height="192" color="0xFFFFFFFF" />
+            <Poster translation="[890,368]" width="172" height="172" uri="pkg:/images/device_qr.png" loadDisplayMode="scaleToFit" />
+
+            <Label id="addonsPortalLabel" translation="[792,568]" width="368" height="28" text="https://auratv.site.je" color="0x38BDF8FF" font="font:SmallBoldSystemFont" horizAlign="center" />
+            <Label id="addonsStatusLabel" translation="[68,648]" width="650" height="24" text="" color="0x94A3B8FF" font="font:SmallBoldSystemFont" />
+        </Group>
+
+        <!-- 10. Settings UI — Rediseño Moderno OLED Black con switches tipo píldora -->
+        <Group id="settingsGroup" visible="false">
+            <Rectangle width="1280" height="720" color="0x000000FF" />
+            <Poster translation="[68,40]" width="180" height="50" uri="pkg:/images/aura_logo_inner.png" loadDisplayMode="scaleToFit" />
+            <Label id="settingsTitleLabel" translation="[330,66]" width="400" height="44" text="Settings" color="0xFFFFFFFF" font="font:LargeBoldSystemFont" />
+            <Group id="settingsRowsGroup" translation="[330,140]" />
+
+            <!-- Tarjeta inferior con credenciales del dispositivo -->
+            <Rectangle translation="[329,491]" width="622" height="130" color="0xFFFFFF18" />
+            <Rectangle translation="[330,492]" width="620" height="128" color="0x0B0F19FF" />
+            <Label id="deviceKeyLabel" translation="[362,514]" width="550" height="28" text="Your device key: 862416" color="0x38BDF8FF" font="font:MediumBoldSystemFont" />
+            <Label id="settingsMacLabel" translation="[362,550]" width="550" height="24" text="Your MAC: 94:23:87:99:03:15" color="0xE2E8F0FF" font="font:SmallBoldSystemFont" />
+            <Label translation="[362,580]" width="550" height="22" text="Version: 2.1  ·  Portal: https://auratv.site.je" color="0x64748BFF" font="font:SmallSystemFont" />
+        </Group>
+
+        <!-- 11. Generic text entry overlay — OLED Black -->
+        <Group id="entryOverlayGroup" visible="false">
+            <Rectangle width="1280" height="720" color="0x000000D0" />
+            <Rectangle translation="[264,119]" width="752" height="482" color="0xFFFFFF1F" />
+            <Rectangle translation="[265,120]" width="750" height="480" color="0x0B0F19FF" />
+            <Label id="entryTitleLabel" translation="[315,152]" width="650" height="34" text="Enter value" color="0xFFFFFFFF" font="font:MediumBoldSystemFont" />
+            <Rectangle translation="[314,201]" width="652" height="52" color="0x38BDF870" />
+            <Rectangle translation="[315,202]" width="650" height="50" color="0x141C2BFF" />
+            <Label id="entryValueLabel" translation="[335,214]" width="610" height="26" text="" color="0xFFFFFFFF" font="font:MediumBoldSystemFont" />
+            <Group id="entryKeyboardGroup" translation="[315,278]" />
+        </Group>
+
+        <!-- 12. Language selector modal — OLED Black -->
+        <Group id="languageGroup" visible="false">
+            <Rectangle width="1280" height="720" color="0x000000D0" />
+            <Rectangle translation="[389,179]" width="502" height="358" color="0xFFFFFF1F" />
+            <Rectangle translation="[390,180]" width="500" height="356" color="0x0B0F19FF" />
+            <Label id="languageTitleLabel" translation="[430,216]" width="420" height="42" text="Seleccionar idioma" horizAlign="center" color="0xFFFFFFFF" font="font:LargeBoldSystemFont" />
+
+            <Rectangle id="languageBg0" translation="[455,286]" width="370" height="52" color="0xFFFFFFFF" />
+            <Label id="languageLabel0" translation="[455,298]" width="370" height="28" text="Español" horizAlign="center" color="0x090D16FF" font="font:MediumBoldSystemFont" />
+
+            <Rectangle id="languageBg1" translation="[455,350]" width="370" height="52" color="0x151E2EFF" />
+            <Label id="languageLabel1" translation="[455,362]" width="370" height="28" text="English" horizAlign="center" color="0xFFFFFFFF" font="font:MediumBoldSystemFont" />
+
+            <Rectangle id="languageBg2" translation="[455,414]" width="370" height="52" color="0x151E2EFF" />
+            <Label id="languageLabel2" translation="[455,426]" width="370" height="28" text="Chinese" horizAlign="center" color="0xFFFFFFFF" font="font:MediumBoldSystemFont" />
+
+            <Label id="languageHintLabel" translation="[430,488]" width="420" height="24" text="OK para seleccionar · Back para cancelar" horizAlign="center" color="0x64748BFF" font="font:SmallSystemFont" />
+        </Group>
+
+        <!-- 13. Simple modal for soon / alerts — OLED Black -->
+        <Group id="soonGroup" visible="false">
+            <Rectangle width="1280" height="720" color="0x000000D0" />
+            <Rectangle translation="[379,239]" width="522" height="192" color="0xFFFFFF1F" />
+            <Rectangle translation="[380,240]" width="520" height="190" color="0x0B0F19FF" />
+            <Label id="soonTitleLabel" translation="[420,274]" width="440" height="36" text="Próximamente" horizAlign="center" color="0xFFFFFFFF" font="font:LargeBoldSystemFont" />
+            <Label id="soonTextLabel" translation="[410,324]" width="460" height="24" text="Esta sección estará disponible más adelante." horizAlign="center" color="0xCBD5E1FF" font="font:SmallSystemFont" />
+            <Label id="soonCloseLabel" translation="[430,376]" width="420" height="20" text="Presiona OK o Back para cerrar" horizAlign="center" color="0x64748BFF" font="font:SmallSystemFont" />
+        </Group>
+
+        <Label id="footerHintLabel" translation="[20,690]" width="1240" height="24" text="" color="0x64748BFF" font="font:SmallSystemFont" />
+
+        <!-- Recuadro de cambio directo por número de canal (0-9) -->
+        <Group id="numericZapBox" translation="[996,34]" visible="false">
+            <Rectangle width="246" height="84" color="0x38BDF888" />
+            <Rectangle translation="[2,2]" width="242" height="80" color="0x060A13F0" />
+            <Label id="numericZapNumber" translation="[12,10]" width="222" height="38" text="118" horizAlign="center" color="0xFFFFFFFF" font="font:LargeBoldSystemFont" />
+            <Label id="numericZapName" translation="[12,50]" width="222" height="22" text="Canal" horizAlign="center" color="0x38BDF8FF" font="font:SmallBoldSystemFont" />
+        </Group>
+
+        <!-- Notificación rápida flotante (Favoritos, Relación de Aspecto, Último canal) -->
+        <Group id="auraToastBox" translation="[390,38]" visible="false">
+            <Rectangle width="500" height="46" color="0x38BDF877" />
+            <Rectangle translation="[1,1]" width="498" height="44" color="0x080D18F0" />
+            <Label id="auraToastLabel" translation="[16,11]" width="468" height="24" text="" horizAlign="center" color="0xF8FAFCFF" font="font:SmallBoldSystemFont" />
+        </Group>
+    </children>
+</component>

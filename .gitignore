@@ -1,0 +1,29 @@
+# Other platform repositories & folders in workspace
+android_tv/
+android_mobile/
+samsung_tizen/
+windows_app/
+pagina web/
+
+# Other platform binaries & archives
+*.apk
+*.exe
+*.wgt
+AURA_TV_Samsung.zip
+AURA_TV_Web_Completa.zip
+AURA_TV.zip
+out/
+dist/
+
+# Credentials & local secrets (NEVER COMMIT)
+*firebase-adminsdk*.json
+*.pem
+*.key
+.env
+.env.*
+
+# OS / Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
